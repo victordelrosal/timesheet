@@ -2,204 +2,454 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport tag for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timesheet Check-in</title>
     <style>
-        /* Basic reset and font setup */
         :root {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                         Helvetica, Arial, sans-serif, "Apple Color Emoji",
-                         "Segoe UI Emoji", "Segoe UI Symbol";
+            color-scheme: light dark;
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            --bg: #04060e;
+            --card: rgba(13, 16, 30, 0.78);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #7bdcff;
+            --primary-strong: #54a8ff;
+            --accent: #f8f4ff;
+            --text-main: #f4f9ff;
+            --text-soft: rgba(244, 249, 255, 0.7);
+            --glass-blur: blur(24px);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         html, body {
             height: 100%;
             margin: 0;
-            background-color: #f3f4f6; /* Light gray background */
+            background: var(--bg);
+            color: var(--text-main);
         }
 
-        /* Main layout: centers content vertically and horizontally */
         body {
+            min-height: 100vh;
+            padding: clamp(1.5rem, 3vw, 3rem);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background: radial-gradient(circle at 20% 20%, rgba(123, 220, 255, 0.08), transparent 50%),
+                        radial-gradient(circle at 80% 10%, rgba(255, 176, 253, 0.08), transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(96, 132, 255, 0.1), transparent 60%),
+                        var(--bg);
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(123, 220, 255, 0.08), rgba(84, 168, 255, 0.05));
+            filter: blur(120px);
+            z-index: -2;
+        }
+
+        .aurora {
+            position: fixed;
+            inset: 0;
+            background: conic-gradient(from 120deg, rgba(123, 220, 255, 0.25), rgba(255, 176, 253, 0.1), rgba(84, 168, 255, 0.25));
+            mix-blend-mode: screen;
+            filter: blur(160px) saturate(120%);
+            opacity: 0.45;
+            animation: breathe 12s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1) translateY(0); opacity: 0.35; }
+            100% { transform: scale(1.1) translateY(-2%); opacity: 0.5; }
+        }
+
+        .app-shell {
+            width: min(480px, 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .glass-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: clamp(1.25rem, 3vw, 2rem);
+            backdrop-filter: var(--glass-blur);
+            box-shadow: 0 20px 60px rgba(2, 6, 23, 0.55);
+        }
+
+        nav.lux-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(7, 10, 21, 0.7);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 1rem;
+            z-index: 10;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #76fff3, #54a8ff);
             display: grid;
             place-items: center;
-            padding: 1rem;
-            color: #1f2937;
+            font-weight: 700;
+            color: #050914;
+            letter-spacing: 0.02em;
         }
 
-        /* The main application card */
-        .timesheet-app {
-            width: 100%;
-            max-width: 400px;
-            background-color: #ffffff;
+        .brand-copy {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-title {
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-main);
+        }
+
+        .brand-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+        }
+
+        .ghost-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ghost-btn:hover {
+            border-color: rgba(123, 220, 255, 0.9);
+            color: var(--primary);
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
-            padding: 2rem 2.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-                        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        /* Header greeting */
-        h1 {
-            font-size: 1.875rem; /* 30px */
+            background: rgba(255, 255, 255, 0.12);
+            display: grid;
+            place-items: center;
             font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
 
-        /* Subtitle text */
+        .nav-clock {
+            font-variant-numeric: tabular-nums;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+        }
+
+        main.timesheet-app {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            font-size: 0.68rem;
+            color: rgba(244, 249, 255, 0.55);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
         .subtitle {
             font-size: 1rem;
-            color: #4b5563; /* Gray-600 */
-            margin-bottom: 2rem;
-        }
-
-        /* The main call-to-action button */
-        .check-in-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 0.875rem 1.5rem;
-            font-size: 1.125rem; /* 18px */
-            font-weight: 600;
-            color: #ffffff;
-            background-color: #2563eb; /* Blue-600 */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        /* Button hover and active states */
-        .check-in-btn:hover {
-            background-color: #1d4ed8; /* Blue-700 */
-        }
-
-        .check-in-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Confirmation message area (initially hidden) */
-        .confirmation {
-            display: none; /* Hidden by default */
-            margin-top: 2rem;
-            padding: 1.25rem;
-            background-color: #f0f9ff; /* Blue-50 */
-            border: 1px solid #bfe2ff; /* Blue-200 */
-            border-radius: 8px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .confirmation h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #0c4a6e; /* Blue-900 */
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-
-        .confirmation p {
-            font-size: 1.125rem;
-            color: #075985; /* Blue-800 */
-            font-weight: 500;
+            color: var(--text-soft);
             margin: 0;
         }
 
-        /* Simple fade-in animation for the confirmation */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .stat-card {
+            padding: 1rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: rgba(244, 249, 255, 0.5);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            margin-top: 0.3rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .clock-card {
+            margin-top: 0.75rem;
+            text-align: center;
+            padding: 2rem 1.5rem 1.75rem;
+            border-radius: 28px;
+            background: linear-gradient(145deg, rgba(8, 12, 24, 0.8), rgba(24, 37, 61, 0.85));
+            border: 1px solid rgba(123, 220, 255, 0.25);
+            box-shadow: 0 25px 50px rgba(5, 9, 20, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clock-card::after {
+            content: "";
+            position: absolute;
+            inset: -50% auto auto -20%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle, rgba(123, 220, 255, 0.18), transparent 55%);
+            animation: drift 6s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            from { transform: translate3d(-10%, -5%, 0); }
+            to { transform: translate3d(10%, 5%, 0); }
+        }
+
+        .live-clock {
+            position: relative;
+            font-size: clamp(2.6rem, 6vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0.5rem;
+            z-index: 1;
+        }
+
+        .microcopy {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            z-index: 1;
+            position: relative;
+        }
+
+        .check-in-btn {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            padding: 1.1rem 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(120deg, #7bdcff, #54a8ff 60%, #b3a0ff);
+            color: #050914;
+            letter-spacing: 0.05em;
+            box-shadow: 0 20px 30px rgba(84, 168, 255, 0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .check-in-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 28px 40px rgba(84, 168, 255, 0.45);
+        }
+
+        .check-in-btn:active {
+            transform: translateY(1px) scale(0.99);
+        }
+
+        .confirmation {
+            margin-top: 1.5rem;
+            border-radius: 24px;
+            padding: 1.5rem;
+            background: rgba(123, 220, 255, 0.08);
+            border: 1px solid rgba(123, 220, 255, 0.4);
+            display: none;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .confirmation h2 {
+            margin: 0 0 0.4rem;
+            font-size: 1.35rem;
+            letter-spacing: 0.05em;
+        }
+
+        .confirmation p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Live clock display */
-        .live-clock {
-            font-size: 2.5rem; /* 40px */
-            font-weight: 700;
-            color: #2563eb; /* Blue-600 */
-            margin-bottom: 1.5rem;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.05em;
+        @media (max-width: 520px) {
+            nav.lux-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .ghost-btn {
+                flex: 1;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="aurora" aria-hidden="true"></div>
 
-    <main class="timesheet-app">
-        <!-- Live Clock -->
-        <div class="live-clock" id="liveClock"></div>
+    <div class="app-shell">
+        <nav class="lux-nav">
+            <div class="nav-left">
+                <div class="brand-mark">SB</div>
+                <div class="brand-copy">
+                    <span class="brand-title">SmallBets Labs</span>
+                    <span class="brand-subtitle">Executive Timesheet</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <button class="ghost-btn">History</button>
+                <button class="ghost-btn">Support</button>
+                <div class="nav-clock" id="navClock">--:--</div>
+                <div class="avatar">D</div>
+            </div>
+        </nav>
 
-        <!-- Initial State -->
-        <h1 id="greeting"></h1>
-        <p class="subtitle" id="subtitle">Ready to start your day?</p>
-        <button class="check-in-btn" id="checkInButton">Let's go!</button>
+        <main class="timesheet-app glass-card">
+            <section class="hero">
+                <span class="eyebrow">Prime Focus</span>
+                <h1 id="greeting">Hello.</h1>
+                <p class="subtitle" id="subtitle">Ready to start your day?</p>
+            </section>
 
-        <!-- Confirmation State (hidden by default) -->
-        <div class="confirmation" id="confirmation">
-            <h2>Checked In!</h2>
-            <p id="timestamp"></p>
-        </div>
-    </main>
+            <section class="stats-panel">
+                <article class="stat-card">
+                    <p class="stat-label">Next Review</p>
+                    <p class="stat-value">11:40 AM</p>
+                </article>
+                <article class="stat-card">
+                    <p class="stat-label">Flow Score</p>
+                    <p class="stat-value">92%</p>
+                </article>
+                <article class="stat-card">
+                    <p class="stat-label">Focus Mode</p>
+                    <p class="stat-value">Deep Work</p>
+                </article>
+            </section>
+
+            <section class="clock-card">
+                <div class="live-clock" id="liveClock">--:--</div>
+                <p class="microcopy">Live Chronograph</p>
+            </section>
+
+            <button class="check-in-btn" id="checkInButton">Initiate Session</button>
+
+            <div class="confirmation" id="confirmation">
+                <h2>Arrival Confirmed</h2>
+                <p id="timestamp"></p>
+            </div>
+        </main>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Configuration ---
             const userName = "Dave";
 
-            // --- Get DOM Elements ---
             const liveClockEl = document.getElementById('liveClock');
+            const navClockEl = document.getElementById('navClock');
             const greetingEl = document.getElementById('greeting');
             const subtitleEl = document.getElementById('subtitle');
             const checkInButton = document.getElementById('checkInButton');
             const confirmationEl = document.getElementById('confirmation');
             const timestampEl = document.getElementById('timestamp');
 
-            // --- State Variable ---
             let checkInTime = null;
 
-            // --- Helper Function: Format Date ---
             function formatTimestamp(date) {
-                // Options to get "9:30 AM"
-                const timeOptions = {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                };
+                const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
                 const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
 
-                // Options to get "Nov 12, 2025"
-                const dateOptions = {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                };
+                const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
                 const formattedDate = date.toLocaleDateString('en-US', dateOptions);
 
                 return `${formattedTime} on ${formattedDate}`;
             }
 
-            // --- Event Handler ---
             function handleCheckIn() {
-                // 1. Capture current date/time
                 checkInTime = new Date();
-
-                // 2. Format the timestamp
                 const formattedTimestamp = formatTimestamp(checkInTime);
 
-                // 3. Update the UI
-                
-                // Update greeting
-                greetingEl.textContent = `You're all set, ${userName}!`;
-                
-                // Hide initial elements
+                greetingEl.textContent = `You're live, ${userName}.`;
                 subtitleEl.style.display = 'none';
                 checkInButton.style.display = 'none';
 
-                // Show confirmation
                 timestampEl.textContent = formattedTimestamp;
                 confirmationEl.style.display = 'block';
             }
 
-            // --- Live Clock Function ---
             function updateLiveClock() {
                 const now = new Date();
                 const timeOptions = {
@@ -210,25 +460,18 @@
                 };
                 const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
                 liveClockEl.textContent = formattedTime;
+                navClockEl.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
             }
 
-            // --- Initialization ---
             function init() {
-                // Set initial greeting
-                greetingEl.textContent = `Hello, ${userName}!`;
-
-                // Attach event listener to the button
+                greetingEl.textContent = `Hello, ${userName}.`;
                 checkInButton.addEventListener('click', handleCheckIn);
-
-                // Initialize and start live clock
-                updateLiveClock(); // Update immediately
-                setInterval(updateLiveClock, 1000); // Update every second
+                updateLiveClock();
+                setInterval(updateLiveClock, 1000);
             }
 
-            // Run the app
             init();
         });
     </script>
-
 </body>
 </html>
