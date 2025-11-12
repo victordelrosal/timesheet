@@ -110,11 +110,24 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Live clock display */
+        .live-clock {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: #2563eb; /* Blue-600 */
+            margin-bottom: 1.5rem;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
     </style>
 </head>
 <body>
 
     <main class="timesheet-app">
+        <!-- Live Clock -->
+        <div class="live-clock" id="liveClock"></div>
+
         <!-- Initial State -->
         <h1 id="greeting"></h1>
         <p class="subtitle" id="subtitle">Ready to start your day?</p>
@@ -133,6 +146,7 @@
             const userName = "Dave";
 
             // --- Get DOM Elements ---
+            const liveClockEl = document.getElementById('liveClock');
             const greetingEl = document.getElementById('greeting');
             const subtitleEl = document.getElementById('subtitle');
             const checkInButton = document.getElementById('checkInButton');
@@ -185,6 +199,19 @@
                 confirmationEl.style.display = 'block';
             }
 
+            // --- Live Clock Function ---
+            function updateLiveClock() {
+                const now = new Date();
+                const timeOptions = {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                };
+                const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
+                liveClockEl.textContent = formattedTime;
+            }
+
             // --- Initialization ---
             function init() {
                 // Set initial greeting
@@ -192,6 +219,10 @@
 
                 // Attach event listener to the button
                 checkInButton.addEventListener('click', handleCheckIn);
+
+                // Initialize and start live clock
+                updateLiveClock(); // Update immediately
+                setInterval(updateLiveClock, 1000); // Update every second
             }
 
             // Run the app
