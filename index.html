@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport tag for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet Check-in</title>
+    <style>
+        /* Basic reset and font setup */
+        :root {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                         "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+
+        /* Main layout: centers content vertically and horizontally */
+        body {
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            color: #1f2937;
+        }
+
+        /* The main application card */
+        .timesheet-app {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Header greeting */
+        h1 {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Subtitle text */
+        .subtitle {
+            font-size: 1rem;
+            color: #4b5563; /* Gray-600 */
+            margin-bottom: 2rem;
+        }
+
+        /* The main call-to-action button */
+        .check-in-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #2563eb; /* Blue-600 */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        /* Button hover and active states */
+        .check-in-btn:hover {
+            background-color: #1d4ed8; /* Blue-700 */
+        }
+
+        .check-in-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Confirmation message area (initially hidden) */
+        .confirmation {
+            display: none; /* Hidden by default */
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background-color: #f0f9ff; /* Blue-50 */
+            border: 1px solid #bfe2ff; /* Blue-200 */
+            border-radius: 8px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .confirmation h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0c4a6e; /* Blue-900 */
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .confirmation p {
+            font-size: 1.125rem;
+            color: #075985; /* Blue-800 */
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Simple fade-in animation for the confirmation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="timesheet-app">
+        <!-- Initial State -->
+        <h1 id="greeting"></h1>
+        <p class="subtitle" id="subtitle">Ready to start your day?</p>
+        <button class="check-in-btn" id="checkInButton">Let's go!</button>
+
+        <!-- Confirmation State (hidden by default) -->
+        <div class="confirmation" id="confirmation">
+            <h2>Checked In!</h2>
+            <p id="timestamp"></p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Configuration ---
+            const userName = "Dave";
+
+            // --- Get DOM Elements ---
+            const greetingEl = document.getElementById('greeting');
+            const subtitleEl = document.getElementById('subtitle');
+            const checkInButton = document.getElementById('checkInButton');
+            const confirmationEl = document.getElementById('confirmation');
+            const timestampEl = document.getElementById('timestamp');
+
+            // --- State Variable ---
+            let checkInTime = null;
+
+            // --- Helper Function: Format Date ---
+            function formatTimestamp(date) {
+                // Options to get "9:30 AM"
+                const timeOptions = {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                };
+                const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+
+                // Options to get "Nov 12, 2025"
+                const dateOptions = {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                };
+                const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+
+                return `${formattedTime} on ${formattedDate}`;
+            }
+
+            // --- Event Handler ---
+            function handleCheckIn() {
+                // 1. Capture current date/time
+                checkInTime = new Date();
+
+                // 2. Format the timestamp
+                const formattedTimestamp = formatTimestamp(checkInTime);
+
+                // 3. Update the UI
+                
+                // Update greeting
+                greetingEl.textContent = `You're all set, ${userName}!`;
+                
+                // Hide initial elements
+                subtitleEl.style.display = 'none';
+                checkInButton.style.display = 'none';
+
+                // Show confirmation
+                timestampEl.textContent = formattedTimestamp;
+                confirmationEl.style.display = 'block';
+            }
+
+            // --- Initialization ---
+            function init() {
+                // Set initial greeting
+                greetingEl.textContent = `Hello, ${userName}!`;
+
+                // Attach event listener to the button
+                checkInButton.addEventListener('click', handleCheckIn);
+            }
+
+            // Run the app
+            init();
+        });
+    </script>
+
+</body>
+</html>
