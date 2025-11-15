@@ -279,6 +279,12 @@
             font-variant-numeric: tabular-nums;
             margin-bottom: 0.5rem;
             z-index: 1;
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(123, 220, 255, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(123, 220, 255, 0.8), 0 0 40px rgba(84, 168, 255, 0.4); }
         }
 
         .microcopy {
@@ -339,6 +345,365 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: particleFall 3s ease-out forwards;
+        }
+
+        @keyframes particleFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 16px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .motivational-quote {
+            margin-top: 1rem;
+            padding: 1.2rem;
+            border-radius: 18px;
+            background: rgba(123, 220, 255, 0.05);
+            border: 1px solid rgba(123, 220, 255, 0.15);
+            text-align: center;
+            font-style: italic;
+            color: var(--text-soft);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .quote-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .quote-author {
+            font-size: 0.85rem;
+            color: var(--primary);
+            opacity: 0.8;
+        }
+
+        .session-timer {
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(123, 220, 255, 0.08), rgba(84, 168, 255, 0.05));
+            border: 1px solid rgba(123, 220, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 0.5rem;
+        }
+
+        .timer-display {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--primary);
+            margin: 0.5rem 0;
+            letter-spacing: 0.08em;
+        }
+
+        .pomodoro-ring {
+            width: 200px;
+            height: 200px;
+            margin: 1rem auto;
+            position: relative;
+        }
+
+        .pomodoro-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .pomodoro-ring circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .ring-bg {
+            stroke: rgba(123, 220, 255, 0.1);
+        }
+
+        .ring-progress {
+            stroke: var(--primary);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+            filter: drop-shadow(0 0 8px rgba(123, 220, 255, 0.6));
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .control-btn:hover {
+            background: rgba(123, 220, 255, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(120deg, #7bdcff, #54a8ff);
+            color: #050914;
+            border-color: transparent;
+        }
+
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(255, 176, 253, 0.15), rgba(123, 220, 255, 0.15));
+            border: 1px solid rgba(255, 176, 253, 0.3);
+            margin-top: 1rem;
+        }
+
+        .streak-emoji {
+            font-size: 1.3rem;
+        }
+
+        .streak-text {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .mini-tasks {
+            margin-top: 1.5rem;
+        }
+
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tasks-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+        }
+
+        .add-task-btn {
+            background: rgba(123, 220, 255, 0.1);
+            border: 1px solid rgba(123, 220, 255, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-task-btn:hover {
+            background: rgba(123, 220, 255, 0.2);
+        }
+
+        .task-input-container {
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .task-input-container.active {
+            display: flex;
+            gap: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .task-input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(123, 220, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .task-input:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+            cursor: move;
+        }
+
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(123, 220, 255, 0.3);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid rgba(123, 220, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox.checked {
+            background: linear-gradient(135deg, #7bdcff, #54a8ff);
+            border-color: transparent;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .task-delete {
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            background: rgba(255, 107, 157, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            color: #ff6b9d;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .task-item:hover .task-delete {
+            opacity: 1;
+        }
+
+        .task-delete:hover {
+            background: rgba(255, 107, 157, 0.2);
+        }
+
+        .sound-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(123, 220, 255, 0.2), rgba(84, 168, 255, 0.2));
+            border: 1px solid rgba(123, 220, 255, 0.4);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(123, 220, 255, 0.4);
+        }
+
+        .sound-toggle.active {
+            background: linear-gradient(135deg, #7bdcff, #54a8ff);
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            background: rgba(13, 16, 30, 0.9);
+            border: 1px solid rgba(123, 220, 255, 0.2);
+            font-size: 0.75rem;
+            color: var(--text-soft);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            animation: fadeInHint 0.5s ease 2s forwards;
+        }
+
+        @keyframes fadeInHint {
+            to { opacity: 1; }
+        }
+
+        .kbd {
+            display: inline-block;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            background: rgba(123, 220, 255, 0.15);
+            border: 1px solid rgba(123, 220, 255, 0.3);
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 0.7rem;
+            margin: 0 0.2rem;
+        }
+
         @media (max-width: 520px) {
             nav.lux-nav {
                 flex-direction: column;
@@ -374,7 +739,7 @@
                 <button class="ghost-btn">History</button>
                 <button class="ghost-btn">Support</button>
                 <div class="nav-clock" id="navClock">--:--</div>
-                <div class="avatar">D</div>
+                <div class="avatar" id="avatarInitial">U</div>
             </div>
         </nav>
 
@@ -411,12 +776,82 @@
                 <h2>Arrival Confirmed</h2>
                 <p id="timestamp"></p>
             </div>
+
+            <div class="motivational-quote" id="motivationalQuote">
+                <p class="quote-text" id="quoteText"></p>
+                <p class="quote-author" id="quoteAuthor"></p>
+            </div>
+
+            <!-- Session Timer with Pomodoro -->
+            <div class="session-timer" id="sessionTimer" style="display: none;">
+                <p class="timer-label">Active Session</p>
+
+                <div class="pomodoro-ring" id="pomodoroRing" style="display: none;">
+                    <svg width="200" height="200">
+                        <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90"
+                                stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <div class="timer-display" id="timerDisplay">25:00</div>
+                    </div>
+                </div>
+
+                <div id="normalTimer">
+                    <div class="timer-display" id="sessionDisplay">00:00:00</div>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="control-btn" id="pomodoroToggle">Pomodoro Mode</button>
+                    <button class="control-btn" id="pauseBtn">Pause</button>
+                    <button class="control-btn" id="endBtn">End Session</button>
+                </div>
+
+                <div class="streak-badge">
+                    <span class="streak-emoji" id="streakEmoji">🔥</span>
+                    <span class="streak-text" id="streakText">3 day streak!</span>
+                </div>
+            </div>
+
+            <!-- Mini Task List -->
+            <div class="mini-tasks" id="miniTasks" style="display: none;">
+                <div class="tasks-header">
+                    <span class="tasks-title">Today's Focus</span>
+                    <button class="add-task-btn" id="addTaskBtn">+ Add Task</button>
+                </div>
+
+                <div class="task-input-container" id="taskInputContainer">
+                    <input type="text" class="task-input" id="taskInput" placeholder="What are you working on?" />
+                    <button class="control-btn" id="saveTaskBtn">Add</button>
+                </div>
+
+                <div class="task-list" id="taskList"></div>
+            </div>
         </main>
+    </div>
+
+    <!-- Floating Sound Toggle -->
+    <button class="sound-toggle" id="soundToggle" title="Toggle ambient sounds">🎵</button>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="keyboard-hint">
+        Press <span class="kbd">Space</span> to pause/resume • <span class="kbd">T</span> to add task • <span class="kbd">P</span> for Pomodoro
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const userName = "Dave";
+            // Get user name from localStorage or prompt for it
+            let userName = localStorage.getItem('userName');
+            if (!userName) {
+                userName = prompt('Welcome! What is your name?');
+                if (userName && userName.trim()) {
+                    userName = userName.trim();
+                    localStorage.setItem('userName', userName);
+                } else {
+                    userName = 'User'; // Default fallback
+                    localStorage.setItem('userName', userName);
+                }
+            }
 
             const liveClockEl = document.getElementById('liveClock');
             const navClockEl = document.getElementById('navClock');
@@ -425,8 +860,118 @@
             const checkInButton = document.getElementById('checkInButton');
             const confirmationEl = document.getElementById('confirmation');
             const timestampEl = document.getElementById('timestamp');
+            const quoteEl = document.getElementById('motivationalQuote');
+            const quoteTextEl = document.getElementById('quoteText');
+            const quoteAuthorEl = document.getElementById('quoteAuthor');
 
             let checkInTime = null;
+            let sessionStartTime = null;
+            let sessionElapsed = 0;
+            let sessionInterval = null;
+            let isPaused = false;
+            let pomodoroMode = false;
+            let pomodoroTime = 25 * 60; // 25 minutes in seconds
+            let pomodoroElapsed = 0;
+            let pomodoroInterval = null;
+            let tasks = [];
+            let ambientAudio = null;
+            let soundEnabled = false;
+
+            // New element references
+            const sessionTimerEl = document.getElementById('sessionTimer');
+            const sessionDisplayEl = document.getElementById('sessionDisplay');
+            const timerDisplayEl = document.getElementById('timerDisplay');
+            const pomodoroRingEl = document.getElementById('pomodoroRing');
+            const normalTimerEl = document.getElementById('normalTimer');
+            const ringProgressEl = document.getElementById('ringProgress');
+            const pomodoroToggleEl = document.getElementById('pomodoroToggle');
+            const pauseBtnEl = document.getElementById('pauseBtn');
+            const endBtnEl = document.getElementById('endBtn');
+            const miniTasksEl = document.getElementById('miniTasks');
+            const addTaskBtnEl = document.getElementById('addTaskBtn');
+            const taskInputContainerEl = document.getElementById('taskInputContainer');
+            const taskInputEl = document.getElementById('taskInput');
+            const saveTaskBtnEl = document.getElementById('saveTaskBtn');
+            const taskListEl = document.getElementById('taskList');
+            const soundToggleEl = document.getElementById('soundToggle');
+            const streakTextEl = document.getElementById('streakText');
+
+            const motivationalQuotes = [
+                { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+                { text: "Focus is a matter of deciding what things you're not going to do.", author: "John Carmack" },
+                { text: "Done is better than perfect.", author: "Sheryl Sandberg" },
+                { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+                { text: "Small bets, big wins.", author: "SmallBets Philosophy" },
+                { text: "Ship early, ship often.", author: "Naval Ravikant" },
+                { text: "Discipline equals freedom.", author: "Jocko Willink" },
+                { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+                { text: "Action is the foundational key to all success.", author: "Pablo Picasso" },
+                { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" }
+            ];
+
+            function createConfetti() {
+                const colors = ['#7bdcff', '#54a8ff', '#b3a0ff', '#ff6b9d', '#ffd93d', '#6bcf7f'];
+                const confettiCount = 50;
+
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }
+            }
+
+            function createParticles() {
+                const colors = ['#7bdcff', '#54a8ff', '#b3a0ff'];
+                const particleCount = 30;
+
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.animationDelay = Math.random() * 0.3 + 's';
+                    particle.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                    document.body.appendChild(particle);
+
+                    setTimeout(() => particle.remove(), 3500);
+                }
+            }
+
+            function playSuccessSound() {
+                // Create a simple celebratory sound using Web Audio API
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [523.25, 659.25, 783.99]; // C, E, G
+
+                notes.forEach((frequency, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = 'sine';
+
+                    const startTime = audioContext.currentTime + (index * 0.1);
+                    gainNode.gain.setValueAtTime(0.3, startTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.5);
+
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + 0.5);
+                });
+            }
+
+            function showRandomQuote() {
+                const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+                quoteTextEl.textContent = `"${randomQuote.text}"`;
+                quoteAuthorEl.textContent = `— ${randomQuote.author}`;
+            }
 
             function formatTimestamp(date) {
                 const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
@@ -442,12 +987,328 @@
                 checkInTime = new Date();
                 const formattedTimestamp = formatTimestamp(checkInTime);
 
+                // Trigger all the celebration effects!
+                createConfetti();
+                createParticles();
+                playSuccessSound();
+
                 greetingEl.textContent = `You're live, ${userName}.`;
                 subtitleEl.style.display = 'none';
                 checkInButton.style.display = 'none';
 
                 timestampEl.textContent = formattedTimestamp;
                 confirmationEl.style.display = 'block';
+
+                // Start the session!
+                startSession();
+            }
+
+            // ===== SESSION TIMER FUNCTIONS =====
+
+            function startSession() {
+                sessionStartTime = Date.now();
+                sessionElapsed = 0;
+                isPaused = false;
+
+                sessionTimerEl.style.display = 'block';
+                miniTasksEl.style.display = 'block';
+
+                sessionInterval = setInterval(updateSessionTimer, 1000);
+                updateStreak();
+            }
+
+            function updateSessionTimer() {
+                if (isPaused) return;
+
+                sessionElapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+
+                const hours = Math.floor(sessionElapsed / 3600);
+                const minutes = Math.floor((sessionElapsed % 3600) / 60);
+                const seconds = sessionElapsed % 60;
+
+                sessionDisplayEl.textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+
+            function togglePause() {
+                isPaused = !isPaused;
+                pauseBtnEl.textContent = isPaused ? 'Resume' : 'Pause';
+                pauseBtnEl.classList.toggle('active', isPaused);
+
+                if (isPaused) {
+                    // Adjust start time to account for pause
+                    sessionStartTime = Date.now() - (sessionElapsed * 1000);
+                }
+            }
+
+            function endSession() {
+                if (confirm('End your session? Your time will be logged.')) {
+                    clearInterval(sessionInterval);
+                    if (pomodoroInterval) clearInterval(pomodoroInterval);
+
+                    const totalMinutes = Math.floor(sessionElapsed / 60);
+                    alert(`Session complete! You worked for ${totalMinutes} minutes. Great job! 🎉`);
+
+                    // Reset UI
+                    sessionTimerEl.style.display = 'none';
+                    miniTasksEl.style.display = 'none';
+                    checkInButton.style.display = 'block';
+                    confirmationEl.style.display = 'none';
+                    greetingEl.textContent = `Hello, ${userName}.`;
+                    subtitleEl.style.display = 'block';
+
+                    sessionElapsed = 0;
+                    isPaused = false;
+                }
+            }
+
+            // ===== POMODORO FUNCTIONS =====
+
+            function togglePomodoro() {
+                pomodoroMode = !pomodoroMode;
+
+                if (pomodoroMode) {
+                    startPomodoro();
+                    pomodoroToggleEl.textContent = 'Exit Pomodoro';
+                    pomodoroToggleEl.classList.add('active');
+                    pomodoroRingEl.style.display = 'block';
+                    normalTimerEl.style.display = 'none';
+                } else {
+                    stopPomodoro();
+                    pomodoroToggleEl.textContent = 'Pomodoro Mode';
+                    pomodoroToggleEl.classList.remove('active');
+                    pomodoroRingEl.style.display = 'none';
+                    normalTimerEl.style.display = 'block';
+                }
+            }
+
+            function startPomodoro() {
+                pomodoroElapsed = 0;
+                updatePomodoroDisplay();
+
+                pomodoroInterval = setInterval(() => {
+                    if (isPaused) return;
+
+                    pomodoroElapsed++;
+                    updatePomodoroDisplay();
+
+                    if (pomodoroElapsed >= pomodoroTime) {
+                        pomodoroComplete();
+                    }
+                }, 1000);
+            }
+
+            function stopPomodoro() {
+                if (pomodoroInterval) {
+                    clearInterval(pomodoroInterval);
+                    pomodoroInterval = null;
+                }
+            }
+
+            function updatePomodoroDisplay() {
+                const remaining = pomodoroTime - pomodoroElapsed;
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+
+                timerDisplayEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                // Update progress ring
+                const circumference = 2 * Math.PI * 90; // radius = 90
+                const progress = pomodoroElapsed / pomodoroTime;
+                const offset = circumference * (1 - progress);
+                ringProgressEl.style.strokeDashoffset = offset;
+            }
+
+            function pomodoroComplete() {
+                stopPomodoro();
+                playSuccessSound();
+                createConfetti();
+
+                alert('🍅 Pomodoro complete! Time for a 5-minute break!');
+
+                pomodoroElapsed = 0;
+                updatePomodoroDisplay();
+            }
+
+            // ===== TASK MANAGEMENT =====
+
+            function addTask(text) {
+                if (!text.trim()) return;
+
+                const task = {
+                    id: Date.now(),
+                    text: text.trim(),
+                    completed: false
+                };
+
+                tasks.push(task);
+                renderTasks();
+                taskInputEl.value = '';
+                taskInputContainerEl.classList.remove('active');
+            }
+
+            function toggleTask(id) {
+                const task = tasks.find(t => t.id === id);
+                if (task) {
+                    task.completed = !task.completed;
+                    renderTasks();
+
+                    if (task.completed) {
+                        playTaskCompleteSound();
+                        createParticles();
+                    }
+                }
+            }
+
+            function deleteTask(id) {
+                tasks = tasks.filter(t => t.id !== id);
+                renderTasks();
+            }
+
+            function renderTasks() {
+                taskListEl.innerHTML = '';
+
+                tasks.forEach(task => {
+                    const taskEl = document.createElement('div');
+                    taskEl.className = 'task-item';
+                    taskEl.innerHTML = `
+                        <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-id="${task.id}"></div>
+                        <span class="task-text ${task.completed ? 'completed' : ''}">${task.text}</span>
+                        <button class="task-delete" data-id="${task.id}">Delete</button>
+                    `;
+
+                    taskEl.querySelector('.task-checkbox').addEventListener('click', () => toggleTask(task.id));
+                    taskEl.querySelector('.task-delete').addEventListener('click', () => deleteTask(task.id));
+
+                    taskListEl.appendChild(taskEl);
+                });
+            }
+
+            function playTaskCompleteSound() {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            }
+
+            // ===== AMBIENT SOUND =====
+
+            function toggleAmbientSound() {
+                soundEnabled = !soundEnabled;
+                soundToggleEl.classList.toggle('active', soundEnabled);
+
+                if (soundEnabled) {
+                    startAmbientSound();
+                } else {
+                    stopAmbientSound();
+                }
+            }
+
+            function startAmbientSound() {
+                // Create a soothing ambient sound using Web Audio API
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                // Create a pink noise generator for ambient sound
+                const bufferSize = 4096;
+                const pinkNoise = audioContext.createScriptProcessor(bufferSize, 1, 1);
+
+                let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+
+                pinkNoise.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        b0 = 0.99886 * b0 + white * 0.0555179;
+                        b1 = 0.99332 * b1 + white * 0.0750759;
+                        b2 = 0.96900 * b2 + white * 0.1538520;
+                        b3 = 0.86650 * b3 + white * 0.3104856;
+                        b4 = 0.55000 * b4 + white * 0.5329522;
+                        b5 = -0.7616 * b5 - white * 0.0168980;
+                        output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                        output[i] *= 0.05; // Volume
+                        b6 = white * 0.115926;
+                    }
+                };
+
+                const gainNode = audioContext.createGain();
+                gainNode.gain.value = 0.05;
+
+                pinkNoise.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                ambientAudio = { context: audioContext, node: pinkNoise };
+            }
+
+            function stopAmbientSound() {
+                if (ambientAudio) {
+                    ambientAudio.node.disconnect();
+                    ambientAudio.context.close();
+                    ambientAudio = null;
+                }
+            }
+
+            // ===== STREAK & GAMIFICATION =====
+
+            function updateStreak() {
+                const today = new Date().toDateString();
+                const lastCheckIn = localStorage.getItem('lastCheckIn');
+                let streak = parseInt(localStorage.getItem('streak') || '0');
+
+                if (lastCheckIn !== today) {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+
+                    if (lastCheckIn === yesterday.toDateString()) {
+                        streak++;
+                    } else {
+                        streak = 1;
+                    }
+
+                    localStorage.setItem('streak', streak);
+                    localStorage.setItem('lastCheckIn', today);
+                }
+
+                const emoji = streak >= 7 ? '🔥' : streak >= 3 ? '⚡' : '✨';
+                streakTextEl.textContent = `${streak} day streak!`;
+                document.getElementById('streakEmoji').textContent = emoji;
+            }
+
+            // ===== KEYBOARD SHORTCUTS =====
+
+            function handleKeyPress(e) {
+                // Don't trigger if typing in input
+                if (e.target.tagName === 'INPUT') return;
+
+                switch(e.key.toLowerCase()) {
+                    case ' ':
+                        e.preventDefault();
+                        if (sessionInterval) togglePause();
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        taskInputContainerEl.classList.add('active');
+                        taskInputEl.focus();
+                        break;
+                    case 'p':
+                        e.preventDefault();
+                        if (sessionInterval) togglePomodoro();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        toggleAmbientSound();
+                        break;
+                }
             }
 
             function updateLiveClock() {
@@ -465,9 +1326,48 @@
 
             function init() {
                 greetingEl.textContent = `Hello, ${userName}.`;
+
+                // Update avatar with user's first initial
+                const avatarEl = document.getElementById('avatarInitial');
+                if (avatarEl && userName) {
+                    avatarEl.textContent = userName.charAt(0).toUpperCase();
+                }
+
                 checkInButton.addEventListener('click', handleCheckIn);
                 updateLiveClock();
                 setInterval(updateLiveClock, 1000);
+
+                // Show initial motivational quote
+                showRandomQuote();
+
+                // Rotate quotes every 15 seconds
+                setInterval(showRandomQuote, 15000);
+
+                // Event listeners for new features
+                pomodoroToggleEl.addEventListener('click', togglePomodoro);
+                pauseBtnEl.addEventListener('click', togglePause);
+                endBtnEl.addEventListener('click', endSession);
+
+                // Task management
+                addTaskBtnEl.addEventListener('click', () => {
+                    taskInputContainerEl.classList.toggle('active');
+                    if (taskInputContainerEl.classList.contains('active')) {
+                        taskInputEl.focus();
+                    }
+                });
+
+                saveTaskBtnEl.addEventListener('click', () => addTask(taskInputEl.value));
+                taskInputEl.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        addTask(taskInputEl.value);
+                    }
+                });
+
+                // Sound toggle
+                soundToggleEl.addEventListener('click', toggleAmbientSound);
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', handleKeyPress);
             }
 
             init();
