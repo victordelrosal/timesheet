@@ -340,6 +340,12 @@
             color: var(--accent);
         }
 
+        .check-in-quip {
+            margin-top: 0.75rem;
+            font-size: 1rem;
+            color: var(--text-soft);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
@@ -775,6 +781,7 @@
             <div class="confirmation" id="confirmation">
                 <h2>Arrival Confirmed</h2>
                 <p id="timestamp"></p>
+                <p class="check-in-quip" id="checkInQuip" aria-live="polite"></p>
             </div>
 
             <div class="motivational-quote" id="motivationalQuote">
@@ -983,6 +990,38 @@
                 return `${formattedTime} on ${formattedDate}`;
             }
 
+            const checkInQuips = [
+                "What time is this to check in, eh?",
+                "Look who finally remembered they have a job!",
+                "Did traffic consist entirely of existential dread again?",
+                "Fashionably late or just dramatically punctual?",
+                "The clock says hi. It's been worried.",
+                "Quick! Act natural, you're technically working now.",
+                "Did your alarm hit snooze on YOU today?",
+                "Breaking news: local legend arrives, coffee trembling.",
+                "We were about to put your face on a milk carton.",
+                "Time is a social construct, but HR still counts it.",
+                "Congratulations, you beat the lunch rush by minutes!",
+                "Your desk plant just sighed in relief.",
+                "Clocked in and ready to mildly exceed expectations!",
+                "Was the floor made of lava again this morning?",
+                "Hope you stretched, that was a marathon commute.",
+                "Welcome back! The to-do list grew three heads.",
+                "Time to make procrastination look productive.",
+                "You arrived! The internet can relax now.",
+                "Another heroic escape from the comfort of bed.",
+                "Office chair has been saving you a warm spin.",
+                "You’re just in time to be fashionably prepared.",
+                "Let’s pretend this was the plan all along.",
+                "Clocked in? More like clocked dramatic entrance.",
+                "Alert the media, productivity might happen!"
+            ];
+
+            function getRandomQuip() {
+                const index = Math.floor(Math.random() * checkInQuips.length);
+                return checkInQuips[index];
+            }
+
             function handleCheckIn() {
                 checkInTime = new Date();
                 const formattedTimestamp = formatTimestamp(checkInTime);
@@ -998,6 +1037,12 @@
 
                 timestampEl.textContent = formattedTimestamp;
                 confirmationEl.style.display = 'block';
+
+                // Add witty quip if element exists
+                const checkInQuipEl = document.getElementById('checkInQuip');
+                if (checkInQuipEl && typeof getRandomQuip === 'function') {
+                    checkInQuipEl.textContent = getRandomQuip();
+                }
 
                 // Start the session!
                 startSession();
